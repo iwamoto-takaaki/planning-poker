@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+import Header from './components/Header.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import { reactive } from 'vue';
 import { initializeApp } from 'firebase/app';
@@ -15,7 +16,6 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import { makeBlock } from '@vue/compiler-core';
 
 const firebaseApp = initializeApp(getFirebaseConfig());
 getPerformance();
@@ -34,17 +34,13 @@ const signOutUser = () => signOut(getAuth())
 onAuthStateChanged(getAuth(), (user) => state.user = user);
 </script>
 
-<template>
+<template>  
   <div>
-    <div id="user-container">
-      <div v-if="state.user">
-        <div>{{ state.user.displayName }}</div>
-        <button @click="signOutUser"> Sign Out </button>
-      </div>
-      <div v-if="!state.user">
-        <button @click="signInUser"> Sign In </button>
-      </div>
-    </div>
+    <Header
+      :user="state.user"
+      @sign-in-user="signInUser"
+      @sign-out-user="signOutUser"
+    />
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
