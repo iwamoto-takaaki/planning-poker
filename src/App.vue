@@ -3,10 +3,9 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import Header from './components/Header.vue'
 import HelloWorld from './components/HelloWorld.vue'
-import { reactive } from 'vue';
+import { ref, Ref } from 'vue';
 import { initializeApp } from 'firebase/app';
 import { getFirebaseConfig } from './firebase-config';
-import { getPerformance } from 'firebase/performance';
 
 import {
   User,
@@ -17,29 +16,30 @@ import {
   signOut,
 } from 'firebase/auth';
 
-const firebaseApp = initializeApp(getFirebaseConfig());
-getPerformance();
+initializeApp(getFirebaseConfig());
 
-interface State {
-  user: User | null,
+interface CurrentUser {
+  user: Ref<User | null>,
+  signInUser: () => {},
+  signOutUser: () => {}
 }
 
-const state = reactive<State>({
-  user: null
-});
+const currentUser = ((): CurrentUser => {
+  const user = ref<User | null> (null)
+  const signInUser = async () => await signInWithPopup(getAuth(), new GoogleAuthProvider())
+  const signOutUser = () => signOut(getAuth()) 
+  onAuthStateChanged(getAuth(), (cangedUser) => user.value = cangedUser);
+  return {user, signInUser, signOutUser}
+})();
 
-const signInUser = async () => await signInWithPopup(getAuth(), new GoogleAuthProvider())
-const signOutUser = () => signOut(getAuth()) 
-
-onAuthStateChanged(getAuth(), (user) => state.user = user);
 </script>
 
 <template>  
   <div>
     <Header
-      :user="state.user"
-      @sign-in-user="signInUser"
-      @sign-out-user="signOutUser"
+      :user="currentUser.user.value"
+      @sign-in-user="currentUser.signInUser"
+      @sign-out-user="currentUser.signOutUser"
     />
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
