@@ -3,6 +3,7 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import Header from './components/Header.vue'
 import HelloWorld from './components/HelloWorld.vue'
+import { getCounter } from './modules/Counter'
 import { ref, Ref } from 'vue';
 import { initializeApp } from 'firebase/app';
 import { getFirebaseConfig } from './firebase-config';
@@ -32,6 +33,7 @@ const currentUser = ((): CurrentUser => {
   return {user, signInUser, signOutUser}
 })();
 
+const counter = getCounter(0)
 </script>
 
 <template>  
@@ -48,7 +50,11 @@ const currentUser = ((): CurrentUser => {
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <HelloWorld
+    msg="Vite + Vue"
+    :count="counter.count.value"
+    @increment="counter.increment"
+  />
 </template>
 
 <style scoped>
