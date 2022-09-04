@@ -4,35 +4,13 @@
 import Header from './components/Header.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import { getCounter } from './modules/Counter'
-import { ref, Ref } from 'vue';
 import { initializeApp } from 'firebase/app';
 import { getFirebaseConfig } from './firebase-config';
-
-import {
-  User,
-  getAuth,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from 'firebase/auth';
+import { getCurrentUser } from './modules/CurrentUser';
 
 initializeApp(getFirebaseConfig());
 
-interface CurrentUser {
-  user: Ref<User | null>,
-  signInUser: () => {},
-  signOutUser: () => {}
-}
-
-const currentUser = ((): CurrentUser => {
-  const user = ref<User | null> (null)
-  const signInUser = async () => await signInWithPopup(getAuth(), new GoogleAuthProvider())
-  const signOutUser = () => signOut(getAuth()) 
-  onAuthStateChanged(getAuth(), (cangedUser) => user.value = cangedUser);
-  return {user, signInUser, signOutUser}
-})();
-
+const currentUser = getCurrentUser()
 const counter = getCounter(0)
 </script>
 
