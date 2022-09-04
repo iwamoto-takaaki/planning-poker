@@ -11,7 +11,7 @@ import { getCurrentUser } from './modules/CurrentUser';
 initializeApp(getFirebaseConfig());
 
 const currentUser = getCurrentUser()
-const counter = getCounter(0)
+const counter = getCounter()
 </script>
 
 <template>  
