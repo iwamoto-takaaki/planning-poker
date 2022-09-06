@@ -5,10 +5,13 @@ import Header from './components/Header.vue'
 import { initializeApp } from 'firebase/app';
 import { getFirebaseConfig } from './firebase-config';
 import { getCurrentUser } from './modules/CurrentUser';
+import { provide, Ref } from 'vue';
+import { User } from 'firebase/auth'
 
 initializeApp(getFirebaseConfig());
 
 const currentUser = getCurrentUser()
+provide("current-user", currentUser.user)
 </script>
 
 <template>  
