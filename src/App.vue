@@ -2,13 +2,12 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import Header from './components/Header.vue'
-import { initializeApp } from 'firebase/app';
-import { getFirebaseConfig } from './firebase-config';
-import { getCurrentUser } from './modules/CurrentUser';
-import { provide, Ref } from 'vue';
-import { User } from 'firebase/auth'
+import { initializeApp } from 'firebase/app'
+import { getFirebaseConfig } from './firebase-config'
+import { getCurrentUser } from './modules/CurrentUser'
+import { provide, Ref } from 'vue'
 
-initializeApp(getFirebaseConfig());
+initializeApp(getFirebaseConfig())
 
 const currentUser = getCurrentUser()
 provide("current-user", currentUser.user)
