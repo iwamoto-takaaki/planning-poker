@@ -5,7 +5,7 @@ import Header from './components/Header.vue'
 import { initializeApp } from 'firebase/app'
 import { getFirebaseConfig } from './firebase-config'
 import { getCurrentUser } from './modules/CurrentUser'
-import { provide, Ref } from 'vue'
+import { provide } from 'vue'
 
 initializeApp(getFirebaseConfig())
 
